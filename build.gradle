@@ -75,10 +75,6 @@ minecraft {
 
 repositories {
     maven {
-        name = 'tterrag maven'
-        url = 'https://maven.tterrag.com/'
-    }
-    maven {
         // location of the maven that hosts JEI files since January 2023
         // location of the maven for Vazkii's mods
         name = "Jared's maven"
@@ -88,17 +84,6 @@ repositories {
         name = "ModMaven"
         url = "https://modmaven.dev"
     }
-    //maven {
-    //    name = "DVS1 Maven FS"
-    //    url = "https://dvs1.progwml6.com/files/maven"
-    //}
-    //maven {
-    //    //Iglee's Repo
-    //    url = "https://iglee.fr:8081/releases"
-    //    content {
-    //        includeGroup "fr.iglee42"
-    //    }
-    //}
 
     flatDir {
         dirs "libs"

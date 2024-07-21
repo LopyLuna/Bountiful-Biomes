@@ -2,8 +2,18 @@ package uwu.lopyluna.bb;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.random.SimpleWeightedRandomList;
+import net.minecraft.util.valueproviders.ConstantInt;
+import net.minecraft.util.valueproviders.IntProvider;
+import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.util.valueproviders.WeightedListInt;
+import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSize;
+import net.minecraft.world.level.levelgen.feature.foliageplacers.CherryFoliagePlacer;
+import net.minecraft.world.level.levelgen.feature.foliageplacers.PineFoliagePlacer;
+import net.minecraft.world.level.levelgen.feature.trunkplacers.CherryTrunkPlacer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -30,10 +40,35 @@ public class BBMod {
 
         BBItems.register(modEventBus);
         BBBlocks.register(modEventBus);
+        BBWoodtypes.register(modEventBus);
 
         BBWoodtypes.setupWoodset("Mahogany",
                 true, 20, 5,
-                true, true, true);
+                true, true, true,
+                new CherryTrunkPlacer( //hehehe ha
+                        7, //pBaseHeight
+                        1, //pHeightRandA
+                        0, //pHeightRandB
+                        new WeightedListInt(SimpleWeightedRandomList.<IntProvider>builder() //branchCount
+                                .add(ConstantInt.of(3), 10)
+                                .add(ConstantInt.of(4), 8)
+                                .add(ConstantInt.of(5), 6)
+                                .add(ConstantInt.of(6), 1)
+                                .build()),
+                        UniformInt.of(3, 5), //branchHorizontalLength
+                        UniformInt.of(3, 7), //branchStartOffsetFromTop & secondBranchStartOffsetFromTop
+                        UniformInt.of(2, 4)), // branchEndOffsetFromTop
+                new CherryFoliagePlacer(
+                        ConstantInt.of(4),
+                        ConstantInt.of(0),
+                        ConstantInt.of(5),
+                        0.25F,
+                        0.5F,
+                        0.16666667F,
+                        0.33333334F),
+                new TwoLayersFeatureSize(1, 0, 2),
+                Tags.Biomes.IS_WET_OVERWORLD,
+                PineFoliagePlacer.CODEC);
 
         MinecraftForge.EVENT_BUS.register(this);
     }
